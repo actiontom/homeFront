@@ -1,0 +1,20 @@
+{
+  "name": "homefront",
+  "description": "home front end",
+  "main": "",
+  "authors": [
+    "JTR"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/actiontom/homeFront",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer-starter-kit": "PolymerElements/polymer-starter-kit#^4.0.0"
+  }
+}
