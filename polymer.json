@@ -1,4 +1,11 @@
 {
     "entrypoint": "index.html",
-    "shell": "src/app-shell/app-shell.js"
+    "shell": "app-shell.js",
+    "sources": [
+     "./views/speed-element.js",
+     "./views/greet-element.js",
+     "./services/greet-service.js",
+     "./services/speed-service.js",
+     "package.json"
+    ]
   }

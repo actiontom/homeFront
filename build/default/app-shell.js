@@ -1,41 +1,43 @@
-import { LitElement, html, css } from 'lit-element';
-import { router, RouterSlot, RouterLink } from 'lit-element-router';
-
-import { GreetElement } from './views/greet-element'
-import { SpeedElement} from './views/speed-element'
+import { LitElement, html, css } from "./node_modules/lit-element/lit-element.js";
+import { router, RouterSlot, RouterLink } from "./node_modules/lit-element-router/lit-element-router.js";
+import { GreetElement } from "./views/greet-element.js";
+import { SpeedElement } from "./views/speed-element.js";
 
 class AppShell extends LitElement {
+  static get properties() {
+    return {
+      route: {
+        type: String
+      },
+      params: {
+        type: Object
+      }
+    };
+  }
 
-    static get properties() {
-        return {
-            route: { type: String },
-            params: { type: Object }
-        }
-    }
+  constructor() {
+    super();
+    router([{
+      name: 'home',
+      pattern: 'home'
+    }, {
+      name: 'greet',
+      pattern: 'greet'
+    }, {
+      name: 'speed',
+      pattern: 'speed'
+    }, {
+      name: 'not-found',
+      pattern: '*'
+    }], (route, params, query) => {
+      this.route = route;
+      this.params = params;
+      console.log(route, params, query);
+    });
+  }
 
-    constructor() {
-        super()
-        router([{
-            name: 'home',
-            pattern: 'home'
-        }, {
-            name: 'greet',
-            pattern: 'greet'
-        }, {
-            name: 'speed',
-            pattern: 'speed'
-        }, {
-            name: 'not-found',
-            pattern: '*'
-        }], (route, params, query) => {
-            this.route = route
-            this.params = params
-            console.log(route, params, query)
-        })
-    }
-
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
 :host {
     display: block;
 }
@@ -69,10 +71,10 @@ class AppShell extends LitElement {
   color: white;
 }       
         `;
-      }
+  }
 
-    render() {
-        return html`
+  render() {
+    return html`
             <div class="topnav">
             <router-link href='/home'>Home</router-link>
             <router-link href='/greet'>Greet</router-link>
@@ -85,8 +87,9 @@ class AppShell extends LitElement {
                 <div slot='speed'><speed-element></speed-element></div>
                 <div slot='not-found'>Not Found</div>
             </router-slot>
-        `
-    }
+        `;
+  }
+
 }
 
-customElements.define('app-shell', AppShell)
+customElements.define('app-shell', AppShell);
