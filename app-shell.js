@@ -1,9 +1,5 @@
-import { LitElement, html, css } from 'lit-element'
-import { router, RouterSlot, RouterLink } from 'lit-element-router'
-
-import { GreetElement } from './views/greet-element'
-import { SpeedElement} from './views/speed-element'
-
+import { LitElement, html, css } from 'lit-element';
+import { router, RouterSlot, RouterLink } from 'lit-element-router';
 
 class AppShell extends LitElement {
 
