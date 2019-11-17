@@ -48,12 +48,15 @@ export class SpeedElement extends LitElement {
       flex-wrap: nowrap;
       justify-content: center;
       margin: auto;
+      flex-direction: column;
+      width: auto;
      
     }
     
     .flex-container > div {
       background-color: #f1f1f1;     
       text-align: center; 
+      
       
     }
 
@@ -65,10 +68,7 @@ export class SpeedElement extends LitElement {
       font-family: Palatino;
     }
 
-    .divOverFlow{
-      height: 250px;
-      overflow-y: scroll;
-    }
+   
     .button
     {
       width: 150px;
@@ -137,12 +137,12 @@ export class SpeedElement extends LitElement {
       <div class="flex-container">
       
       <div><label>Start Date: </label>      
-      <input type="datetime-local" id="bDate" value="${this.beginDate}"></div>  
-      <div><label>End Date: </label>
+      <input type="datetime-local" id="bDate" value="${this.beginDate}">
+      <label>End Date: </label>
       <input type="datetime-local" id="eDate" value="${this.endDate}"></div>
             
-       </div>
-       <p><button class="button" @click="${this.speed}">Get Report</button></p>
+      <div><button class="button" @click="${this.speed}">Get Report</button></div>
+    </div>
        <div class="divOverFlow">
           ${!this.report ? null : html`
         <table class="center">
