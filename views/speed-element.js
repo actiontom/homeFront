@@ -67,8 +67,10 @@ export class SpeedElement extends LitElement {
     div{
       font-family: Palatino;
     }
-
-   
+    .divOverFlow{
+      height: 250px;
+      overflow-y: scroll;
+    }   
     .button
     {
       width: 150px;
@@ -133,7 +135,7 @@ export class SpeedElement extends LitElement {
      */
     return html`
       <!-- template content -->
-      <h4>Get today's speed report</h4>
+      <h4>Get a speed report</h4>
       <div class="flex-container">
       
       <div><label>Start Date: </label>      
@@ -144,17 +146,18 @@ export class SpeedElement extends LitElement {
       <div><button class="button" @click="${this.speed}">Get Report</button></div>
     </div>
        <div class="divOverFlow">
+         <table class="center">
           ${!this.report ? null : html`
-        <table class="center">
           <tr>
             <th>Time</th>
             <th>Upload Speed</th>
             <th>Download Speed</th>
           </tr>
           ${ this.report.map(res=> html` <tr><td>${res.time}</td><td>${res.uploadSpeed}</td><td>${res.downloadSpeed}</td></tr>`)}                 
-        </table>        
           `}
-       </div>       
+        </table>        
+       </div>      
+        </div>   
     `;
   }
 }
