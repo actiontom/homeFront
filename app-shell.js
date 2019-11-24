@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { router, RouterSlot, RouterLink } from 'lit-element-router';
 
+
 import { GreetElement } from './views/greet-element'
 import { SpeedElement} from './views/speed-element'
 
@@ -43,7 +44,7 @@ class AppShell extends LitElement {
 .topnav {
   background-color: #566d7c;
   overflow: hidden;
-  font-family: "Tahoma";
+  font-family: "Roboto";
 }
 
 /* Style the links inside the navigation bar */

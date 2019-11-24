@@ -1,7 +1,12 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html, css } from 'lit-element';
 
+//Import Services
 import { SpeedService } from '../services/speed-service';
+
+//Import Styles
+import 'lit-element-bootstrap/components/button';
+import '@lit-element-bootstrap/layout';
 
 // Extend the LitElement base class
 export class SpeedElement extends LitElement {
@@ -34,6 +39,7 @@ export class SpeedElement extends LitElement {
     dateYesterday.setSeconds(0,0);    
          
     this.report = null;
+    this.reportRequested = 'Not Requested.';
     this.beginDate = dateYesterday.toISOString().substr(0,16);
     this.endDate = dateToday.toISOString().substr(0,16);
   }
@@ -50,14 +56,11 @@ export class SpeedElement extends LitElement {
       margin: auto;
       flex-direction: column;
       width: auto;
-     
     }
     
     .flex-container > div {
       background-color: #f1f1f1;     
-      text-align: center; 
-      
-      
+      text-align: center;
     }
 
     h4 {
@@ -65,24 +68,19 @@ export class SpeedElement extends LitElement {
     }
 
     div{
-      font-family: Palatino;
+      padding: 5px;
+      font-family: Roboto;
     }
     .divOverFlow{
-      height: 250px;
+      height: 300px;
       overflow-y: scroll;
-    }   
-    .button
-    {
-      width: 150px;
-      text-align: center;
-      margin:0 auto;
-
-    }
+      background-color: white;
+    }  
 
     table {
-      font-family: Palatino;
-      
+      font-family: Roboto;
     }
+    
     table.center {
       margin-left:auto; 
       margin-right:auto;
@@ -103,6 +101,7 @@ export class SpeedElement extends LitElement {
     td{
       font-size: 14px;
     }
+   
     `;
   }
 
@@ -112,13 +111,13 @@ export class SpeedElement extends LitElement {
    */
   async speed(){ 
 
+    this.reportRequested = 'Requested.';
     this.beginDate = this.shadowRoot.getElementById('bDate').value;
     this.endDate = this.shadowRoot.getElementById('eDate').value;
-    console.log(this.beginDate, this.endDate)
+    console.log(this.beginDate, this.endDate);
     
-    
-  this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate); 
-  } 
+  this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);
+  }
 
   /**
    * Implement `render` to define a template for your element.
@@ -135,29 +134,40 @@ export class SpeedElement extends LitElement {
      */
     return html`
       <!-- template content -->
-      <h4>Get a speed report</h4>
+      <div>
+        <h4>Get a speed report</h4>
+      </div>
+
       <div class="flex-container">
       
-      <div><label>Start Date: </label>      
-      <input type="datetime-local" id="bDate" value="${this.beginDate}">
-      <label>End Date: </label>
-      <input type="datetime-local" id="eDate" value="${this.endDate}"></div>
-            
-      <div><button class="button" @click="${this.speed}">Get Report</button></div>
-    </div>
-       <div class="divOverFlow">
-         <table class="center">
-          ${!this.report ? null : html`
-          <tr>
-            <th>Time</th>
-            <th>Upload Speed</th>
-            <th>Download Speed</th>
-          </tr>
-          ${ this.report.map(res=> html` <tr><td>${res.time}</td><td>${res.uploadSpeed}</td><td>${res.downloadSpeed}</td></tr>`)}                 
-          `}
-        </table>        
-       </div>      
-        </div>   
+        <div>
+          <label>Start Date: </label>
+          <input type="datetime-local" id="bDate" value="${this.beginDate}">
+          <label>End Date: </label>
+          <input type="datetime-local" id="eDate" value="${this.endDate}">
+        </div>
+                
+        <div>
+          <bs-button @click="${this.speed}" info>Get Report</bs-button>       
+        </div>      
+
+        <div>          
+          ${this.report === null ? 'Nothing to display' : html`
+
+            <div class="divOverFlow">
+              <table class="center">
+                <tr>
+                  <th>Time</th>
+                  <th>Upload Speed</th>
+                  <th>Download Speed</th>
+                </tr>
+                ${ this.report.map(res=> html` <tr><td>${res.time}</td><td>${res.uploadSpeed}</td><td>${res.downloadSpeed}</td></tr>`)}                 
+              </table>        
+            </div>
+        `}
+        </div>
+    
+      </div>
     `;
   }
 }

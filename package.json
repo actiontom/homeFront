@@ -10,7 +10,9 @@
   "author": "JTR",
   "license": "ISC",
   "dependencies": {
+    "@lit-element-bootstrap/layout": "^1.0.0-alpha.4",
     "lit-element": "^2.2.1",
+    "lit-element-bootstrap": "0.0.0",
     "lit-element-router": "^1.2.5"
   },
   "devDependencies": {

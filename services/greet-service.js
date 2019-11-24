@@ -1,49 +1,45 @@
 
  export class GreetService {
 
-    static greet(name) {
+    static async greet(name) {
         console.log("testing greet service");
         let queryString = "?name=".concat(name);
 
-        var url = "http://localhost:3000/api/greet".concat(queryString);
+        var url = "http://192.168.101.227:3000/api/greet".concat(queryString);
         var method = "GET";
-        var postData = "Some data";
 
-// You REALLY want shouldBeAsync = true.
-// Otherwise, it'll block ALL execution waiting for server response.
-        var shouldBeAsync = true;
+        // await code here
+        let result = await makeRequest(method, url);
+        
+        // code below here will only execute when await makeRequest() finished loading               
+        return result;
 
-        var request = new XMLHttpRequest();
-
-// Before we send anything, we first have to say what we will do when the
-// server responds. This seems backwards (say how we'll respond before we send
-// the request? huh?), but that's how Javascript works.
-// This function attached to the XMLHttpRequest "onload" property specifies how
-// the HTTP response will be handled. 
-        request.onload = function () {
-
-   // Because of javascript's fabulous closure concept, the XMLHttpRequest "request"
-   // object declared above is available in this function even though this function
-   // executes long after the request is sent and long after this function is
-   // instantiated. This fact is CRUCIAL to the workings of XHR in ordinary
-   // applications.
-
-   // You can get all kinds of information about the HTTP response.
-   var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
-   var data = request.responseText; // Returned data, e.g., an HTML document.
+    }
 }
 
-request.open(method, url, shouldBeAsync);
-
-request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-// Or... request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-// Or... whatever
-
-// Actually sends the request to the server.
-request.send(postData); 
-
-        }
-}
+function makeRequest(method, url) {
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
+                }
+            };
+            xhr.onerror = function () {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            };
+            xhr.send();
+        });
+    }
 
 
 

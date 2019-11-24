@@ -9,11 +9,13 @@ export class GreetElement extends LitElement {
   constructor() {
     super();
     this.name = "Enter your name";
+    this.greeting = "";
   }
 
   static get properties() {
     return {
-      name: { type: String }
+      name: { type: String },
+      greeting: { type: String}
     };
   }
 
@@ -21,16 +23,30 @@ export class GreetElement extends LitElement {
     return css`
     :host {
       display: block;
-    }`;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+     
+      flex-wrap: wrap;
+    }
+    div{
+      padding: 5px;
+      margin:auto;    
+    }    
+    `;
   }
 
- greet(){
+ async greet(){
     
   this.name = this.shadowRoot.getElementById('fname').value;
-  console.log("Hello " + this.name);
 
-    GreetService.greet(this.name);
-    return true;
+  if(this.name === "Enter your name"){
+    this.greeting = "Please enter your name."
+  } else {
+    
+    this.greeting = await GreetService.greet(this.name);
+    }    
   } 
 
   /**
@@ -48,14 +64,21 @@ export class GreetElement extends LitElement {
      */
     return html`
       <!-- template content -->
-     
-        First name: <input type="text" id="fname" value="${this.name}"><br>
-        
-        <button @click="${this.greet}">Greets</button>
-        <!-- <button type="button" onclick="this.greet()">Click Me!</button>  -->
-        <button type="button" onclick="alert('Hello world!')">Click Me!</button>
-    
-        <p>${this.name}</p>
+     <div class='container'>
+
+       <div>
+         <label>Name:</label> <input type="text" id="fname" value="${this.name}"><br>
+      </div>
+       
+      <div>
+        <button @click="${this.greet}">Greet</button>
+      </div>
+      
+      <div>
+        <p>${this.greeting}</p>
+      </div>
+
+     </div>
     `;
   }
 }

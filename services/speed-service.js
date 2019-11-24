@@ -8,10 +8,10 @@
 
         if (beginDate === '' || endDate === ''){
 
-            url = "http://localhost:3000/api/speedHistory";
+            url = "http://192.168.101.227:3000/api/speedHistory";
         } 
         else {
-            url = "http://localhost:3000/api/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
+            url = "http://192.168.101.227:3000/api/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
         }        
         
         // await code here
