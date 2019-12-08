@@ -22,6 +22,7 @@ export class SpeedElement extends LitElement {
     return {
       name: { type: String },
       report: { type: Array},
+      speedTest: { type: Object},
       beginDate: { type: String},
       endDate: { type: String} 
     };
@@ -32,13 +33,14 @@ export class SpeedElement extends LitElement {
 
     let dateToday = date;    
 
-    let dateYesterday = date- 1000 * 60 * 60 * 24 * 1;   
-    dateYesterday = new Date(dateYesterday);   
+    let dateYesterday = date- 1000 * 60 * 60 * 24 * 1; 
+    dateYesterday = new Date(dateYesterday); 
 
     dateToday.setSeconds(0,0);
     dateYesterday.setSeconds(0,0);    
          
     this.report = null;
+    this.speedTest = null;
     this.reportRequested = 'Not Requested.';
     this.beginDate = dateYesterday.toISOString().substr(0,16);
     this.endDate = dateToday.toISOString().substr(0,16);
@@ -114,9 +116,18 @@ export class SpeedElement extends LitElement {
     this.reportRequested = 'Requested.';
     this.beginDate = this.shadowRoot.getElementById('bDate').value;
     this.endDate = this.shadowRoot.getElementById('eDate').value;
-    console.log(this.beginDate, this.endDate);
+    // console.log(this.beginDate, this.endDate);
     
   this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);
+  }
+
+  /**
+   * Call Speed service to get a speed test result.
+   */
+  async speedTester(){
+    console.log('Clicked speed test');
+    this.speedTest = await SpeedService.getSpeedTest();
+    console.log(this.speedTest.speeds.download);
   }
 
   /**
@@ -135,18 +146,34 @@ export class SpeedElement extends LitElement {
     return html`
       <!-- template content -->
       <div>
-        <h4>Get a speed report</h4>
+        <h4>Get your line speed tested.</h4>
       </div>
 
       <div class="flex-container">
-      
+        <div>
+          <bs-button @click="${this.speedTester}" info>Speed Test</bs-button>
+          ${this.speedTest === null ? 'Nothing to display' : html`
+
+            <div class="divOverFlow">
+              <table class="center">
+                <tr>                  
+                  <th>Download Speed</th>
+                </tr>
+                ${ this.speedTest ? html` <tr><td>${this.speedTest.speeds.download}</td></tr>` : `` }             
+              </table>        
+            </div>
+
+            `}
+
+        </div>
+
         <div>
           <label>Start Date: </label>
           <input type="datetime-local" id="bDate" value="${this.beginDate}">
           <label>End Date: </label>
           <input type="datetime-local" id="eDate" value="${this.endDate}">
-        </div>
-                
+        </div>      
+
         <div>
           <bs-button @click="${this.speed}" info>Get Report</bs-button>       
         </div>      
@@ -165,8 +192,7 @@ export class SpeedElement extends LitElement {
               </table>        
             </div>
         `}
-        </div>
-    
+        </div>    
       </div>
     `;
   }

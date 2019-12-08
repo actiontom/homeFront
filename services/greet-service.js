@@ -5,7 +5,8 @@
         console.log("testing greet service");
         let queryString = "?name=".concat(name);
 
-        var url = "http://192.168.101.227:3000/api/greet".concat(queryString);
+        //var url = "http://192.168.101.227:3000/greet".concat(queryString);
+        var url = "http://localhost:3000/greet".concat(queryString);
         var method = "GET";
 
         // await code here
