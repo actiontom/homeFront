@@ -49,6 +49,10 @@ export class GreetElement extends LitElement {
     }    
   } 
 
+  clear(){
+    this.name = "";
+  }
+
   /**
    * Implement `render` to define a template for your element.
    *
@@ -64,16 +68,17 @@ export class GreetElement extends LitElement {
      */
     return html`
       <!-- template content -->
-     <div class='container'>
+     <div class='container'>  
+
 
        <div>
-         <label>Name:</label> <input type="text" id="fname" value="${this.name}"><br>
+         <label>Name:</label> <input @click="${this.clear}" type="text" id="fname" value="${this.name}"><br>
       </div>
        
       <div>
         <button @click="${this.greet}">Greet</button>
       </div>
-      
+      -
       <div>
         <p>${this.greeting}</p>
       </div>

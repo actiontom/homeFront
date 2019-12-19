@@ -4,6 +4,9 @@ import { LitElement, html, css } from 'lit-element';
 //Import Services
 import { SpeedService } from '../services/speed-service';
 
+//Import Components
+import { LoaderComponent } from '../helper_components/loader-component'
+
 //Import Styles
 import 'lit-element-bootstrap/components/button';
 import '@lit-element-bootstrap/layout';
@@ -15,7 +18,7 @@ export class SpeedElement extends LitElement {
     super();
 
     this.setDefaultDates();
-    
+    this.loadingState = false;   
   }
 
   static get properties() {
@@ -24,7 +27,8 @@ export class SpeedElement extends LitElement {
       report: { type: Array},
       speedTest: { type: Object},
       beginDate: { type: String},
-      endDate: { type: String} 
+      endDate: { type: String},
+      loadingState: { type: Boolean} 
     };
   }
 
@@ -43,7 +47,32 @@ export class SpeedElement extends LitElement {
     this.speedTest = null;
     this.reportRequested = 'Not Requested.';
     this.beginDate = dateYesterday.toISOString().substr(0,16);
-    this.endDate = dateToday.toISOString().substr(0,16);
+    this.endDate = dateToday.toISOString().substr(0,16);    
+  }
+
+  /**
+   * Call Speed service to get speed report.
+   * 
+   */
+  async speed(){ 
+
+    this.reportRequested = 'Requested.';
+    this.beginDate = this.shadowRoot.getElementById('bDate').value;
+    this.endDate = this.shadowRoot.getElementById('eDate').value;
+    // console.log(this.beginDate, this.endDate);
+    
+  this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);
+  }
+
+  /**
+   * Call Speed service to get a speed test result.
+   */
+  async speedTester(){
+    this.loadingState = true;
+    console.log('Clicked speed test');
+    this.speedTest = await SpeedService.getSpeedTest();
+    console.log(this.speedTest.speeds.download);
+    this.loadingState = false;
   }
 
   static get styles() {
@@ -105,30 +134,7 @@ export class SpeedElement extends LitElement {
     }
    
     `;
-  }
-
-  /**
-   * Call Speed service to get speed report.
-   * 
-   */
-  async speed(){ 
-
-    this.reportRequested = 'Requested.';
-    this.beginDate = this.shadowRoot.getElementById('bDate').value;
-    this.endDate = this.shadowRoot.getElementById('eDate').value;
-    // console.log(this.beginDate, this.endDate);
-    
-  this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);
-  }
-
-  /**
-   * Call Speed service to get a speed test result.
-   */
-  async speedTester(){
-    console.log('Clicked speed test');
-    this.speedTest = await SpeedService.getSpeedTest();
-    console.log(this.speedTest.speeds.download);
-  }
+  }  
 
   /**
    * Implement `render` to define a template for your element.
@@ -149,14 +155,20 @@ export class SpeedElement extends LitElement {
         <h4>Get your line speed tested.</h4>
       </div>
 
+      <div>
+        <loader-component .loading="${this.loadingState}" ></loader-component>
+      </div>
+
       <div class="flex-container">
         <div>
           <bs-button @click="${this.speedTester}" info>Speed Test</bs-button>
-          ${this.speedTest === null ? 'Nothing to display' : html`
-
-            <div class="divOverFlow">
+          ${this.speedTest === null ? html`<div>Nothing to display</div>` : html`
+            <div>
+            
+            </div>
+            <div>
               <table class="center">
-                <tr>                  
+                <tr>             
                   <th>Download Speed</th>
                 </tr>
                 ${ this.speedTest ? html` <tr><td>${this.speedTest.speeds.download}</td></tr>` : `` }             
