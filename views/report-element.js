@@ -33,21 +33,24 @@ export class ReportElement extends LitElement {
   }
 
   setDefaultDates(){
+
     let date = new Date();
 
-    let dateToday = date;    
+    this.getLocalTime(date);
 
-    let dateYesterday = date- 1000 * 60 * 60 * 24 * 1; 
-    dateYesterday = new Date(dateYesterday); 
+
+    let dateToday = date;
+    let dateYesterday = new Date(date - 1000 * 60 * 60 * 24 * 1);
 
     dateToday.setSeconds(0,0);
-    dateYesterday.setSeconds(0,0);    
+    dateYesterday.setHours(0,0,0,0);
          
     this.report = null;
     this.speedTest = null;
     this.reportRequested = 'Not Requested.';
-    this.beginDate = dateYesterday.toISOString().substr(0,16);
-    this.endDate = dateToday.toISOString().substr(0,16);    
+    this.beginDate = this.getLocalTime(dateYesterday).toISOString().substr(0,16);
+    this.endDate = this.getLocalTime(dateToday).toISOString().substr(0,16);  
+
   }
 
   /**
@@ -59,10 +62,30 @@ export class ReportElement extends LitElement {
     this.reportRequested = 'Requested.';
     this.beginDate = this.shadowRoot.getElementById('bDate').value;
     this.endDate = this.shadowRoot.getElementById('eDate').value;
-    this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);
-    console.log(this.report);
+    this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);    
     this.loadingState = false;
-  }  
+  }
+
+  /**
+   *  Get the local "Time Zone" time.
+   */
+  getLocalTime(gmtTime){
+
+    let timeZoneOffset = null;
+    let localTime = null;
+    
+    if(gmtTime instanceof Date){      
+      timeZoneOffset = gmtTime.getTimezoneOffset();
+      localTime = new Date(gmtTime.getTime() - ( timeZoneOffset * 60000) );
+    }
+    else {
+      gmtTime = new Date(Date.parse(gmtTime));
+      timeZoneOffset = gmtTime.getTimezoneOffset();
+      localTime = gmtTime;
+    }
+
+    return localTime;
+  }
 
   static get styles() {
     return css`
@@ -172,7 +195,7 @@ export class ReportElement extends LitElement {
                   <th>Download Speed</th>
                   <th>Type</th>
                 </tr>
-                ${ this.report.map(res=> html` <tr><td>${res.time}</td><td>${res.uploadSpeed}</td><td>${res.downloadSpeed}</td><td>${res.type}</td></tr>`)}                 
+                ${ this.report.map(res=> html` <tr><td>${this.getLocalTime(res.time)}</td><td>${res.uploadSpeed}</td><td>${res.downloadSpeed}</td><td>${res.type}</td></tr>`)}                 
               </table>        
             </div>
         `}

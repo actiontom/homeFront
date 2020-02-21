@@ -41,7 +41,7 @@ export class GreetElement extends LitElement {
     
   this.name = this.shadowRoot.getElementById('fname').value;
 
-  if(this.name === "Enter your name"){
+  if(this.name === "Enter your name" || this.name === ""){
     this.greeting = "Please enter your name."
   } else {
     
@@ -68,8 +68,7 @@ export class GreetElement extends LitElement {
      */
     return html`
       <!-- template content -->
-     <div class='container'>  
-
+     <div class='container'>
 
        <div>
          <label>Name:</label> <input @click="${this.clear}" type="text" id="fname" value="${this.name}"><br>
@@ -78,7 +77,7 @@ export class GreetElement extends LitElement {
       <div>
         <button @click="${this.greet}">Greet</button>
       </div>
-      -
+     
       <div>
         <p>${this.greeting}</p>
       </div>
