@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
 import { router, RouterSlot, RouterLink } from 'lit-element-router';
 
-
-import { GreetElement } from './views/greet-element'
-import { SpeedElement} from './views/speed-element'
+import './views/greet-element'
+import './views/speed-element'
+import './views/report-element'
 
 class AppShell extends LitElement {
 
@@ -16,7 +16,8 @@ class AppShell extends LitElement {
 
     constructor() {
         super()
-        router([{
+
+       router([{
             name: 'home',
             pattern: 'home'
         }, {
@@ -25,6 +26,9 @@ class AppShell extends LitElement {
         }, {
             name: 'speed',
             pattern: 'speed'
+        },  {
+            name: 'report',
+            pattern: 'report'
         }, {
             name: 'not-found',
             pattern: '*'
@@ -40,6 +44,7 @@ class AppShell extends LitElement {
 :host {
     display: block;
 }
+
 /* Add a black background color to the top navigation */
 .topnav {
   background-color: #566d7c;
@@ -54,8 +59,7 @@ class AppShell extends LitElement {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
-    
+    font-size: 17px;    
   }
 
 /* Change the color of links on hover */
@@ -77,13 +81,15 @@ class AppShell extends LitElement {
             <div class="topnav">
             <router-link href='/home'>Home</router-link>
             <router-link href='/greet'>Greet</router-link>
-            <router-link href='/speed'>Speed</router-link>       
+            <router-link href='/speed'>Speed</router-link>
+            <router-link href='/report'>Report</router-link>
             </div>
           
             <router-slot route='${this.route}'>
                 <div slot='home'>Home</div>
                 <div slot='greet'><greet-element></greet-element></div>
                 <div slot='speed'><speed-element></speed-element></div>
+                <div slot='report'><report-element></report-element></div>
                 <div slot='not-found'>Not Found</div>
             </router-slot>
         `

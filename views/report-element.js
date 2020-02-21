@@ -12,7 +12,7 @@ import 'lit-element-bootstrap/components/button';
 import '@lit-element-bootstrap/layout';
 
 // Extend the LitElement base class
-export class SpeedElement extends LitElement {
+export class ReportElement extends LitElement {
 
   constructor() {
     super();
@@ -58,25 +58,18 @@ export class SpeedElement extends LitElement {
     this.loadingState = true;
     this.reportRequested = 'Requested.';
     this.beginDate = this.shadowRoot.getElementById('bDate').value;
-    this.endDate = this.shadowRoot.getElementById('eDate').value;     
+    this.endDate = this.shadowRoot.getElementById('eDate').value;
     this.report = await SpeedService.getSpeedReport(this.beginDate, this.endDate);
+    console.log(this.report);
     this.loadingState = false;
-  }
-
-  /**
-   * Call Speed service to get a speed test result.
-   */
-  async speedTester(){
-    this.loadingState = true;    
-    this.speedTest = await SpeedService.getSpeedTest();   
-    this.loadingState = false;
-  }
+  }  
 
   static get styles() {
     return css`
     :host {
       display: block;
     }
+    
     .flex-container {
       display: flex;
       flex-wrap: nowrap;
@@ -103,14 +96,14 @@ export class SpeedElement extends LitElement {
       height: 300px;
       overflow-y: scroll;
       background-color: white;
-    }  
-
+    }
+    
     table {
       font-family: Roboto;
     }
     
     table.center {
-      margin-left:auto; 
+      margin-left:auto;
       margin-right:auto;
     }  
     
@@ -120,7 +113,8 @@ export class SpeedElement extends LitElement {
       border-bottom: 1px solid #ddd;
     }
 
-    th{
+    .th{
+      position: sticky;     
       height: 50px;
     }
 
@@ -128,8 +122,7 @@ export class SpeedElement extends LitElement {
     
     td{
       font-size: 14px;
-    }
-   
+    }    
     `;
   }  
 
@@ -148,37 +141,46 @@ export class SpeedElement extends LitElement {
      */
     return html`
       <!-- template content -->
+
+      <div class="flex-container">
       <div>
-        <h4>Get your line speed tested.</h4>
+        <h4>Get your speed report.</h4>
       </div>
 
       <div>
         <loader-component .loading="${this.loadingState}" ></loader-component>
       </div>
 
-      <div class="flex-container">
         <div>
-          <bs-button @click="${this.speedTester}" info>Speed Test</bs-button>
-          ${this.speedTest === null ? html`<div>Nothing to display</div>` : html`
-            <div>
-            
-            </div>
-            <div>
-              <table class="center">
-                <tr>             
-                  <th>Download Speed</th>
-                </tr>
-                ${ this.speedTest ? html` <tr><td>${this.speedTest.speeds.download + ' kB/s'}</td></tr>` : `` }             
-              </table>        
-            </div>
-            `}
+          <label>Start Date: </label>
+          <input type="datetime-local" id="bDate" value="${this.beginDate}">
+          <label>End Date: </label>
+          <input type="datetime-local" id="eDate" value="${this.endDate}">
         </div>
 
-       
-       
+        <div>
+          <bs-button @click="${this.speed}" info>Get Report</bs-button>       
+        </div>
+
+        <div>
+          ${this.report === null ? 'Nothing to display yet.' : html`
+            <div class="divOverFlow">
+              <table class="center">
+                <tr>
+                  <th>Time</th>
+                  <th>Upload Speed</th>
+                  <th>Download Speed</th>
+                  <th>Type</th>
+                </tr>
+                ${ this.report.map(res=> html` <tr><td>${res.time}</td><td>${res.uploadSpeed}</td><td>${res.downloadSpeed}</td><td>${res.type}</td></tr>`)}                 
+              </table>        
+            </div>
+        `}
+        </div> 
+      </div>
       </div>
     `;
   }
 }
 // Register the new element with the browser.
-customElements.define('speed-element', SpeedElement);
+customElements.define('report-element', ReportElement);

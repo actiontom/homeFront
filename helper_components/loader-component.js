@@ -10,9 +10,7 @@ export class LoaderComponent extends LitElement {
   }
 
   connectedCallback() {
-    super.connectedCallback();
-    //let loading = document.addEventListener('loading');
-    //console.log(this.loading);
+    super.connectedCallback();   
   }
 
   static get properties() {

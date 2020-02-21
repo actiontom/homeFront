@@ -8,16 +8,17 @@
 
         if (beginDate === '' || endDate === ''){
 
-            url = "http://192.168.101.227:3000/speedHistory";
-            //url = "http://localhost:3000/speedHistory";
+            //url = "http://192.168.101.227:3000/speedHistory";
+            url = "http://localhost:3000/speedHistory";
         } 
         else {
-            url = "http://192.168.101.227:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
-            //url = "http://localhost:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
+            //url = "http://192.168.101.227:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
+            url = "http://localhost:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
         }        
         
         // await code here
         let result = await makeRequest(method, url);
+        console.log(result);
         
         // code below here will only execute when await makeRequest() finished loading               
         return JSON.parse(result);
@@ -28,12 +29,12 @@
         let url = "";
         var method = "GET";       
 
-        url = "http://192.168.101.227:3000/speedTest";
-        //url = "http://localhost:3000/speedTest";              
+        //url = "http://192.168.101.227:3000/speedTest";
+        url = "http://localhost:3000/speedTest?type=manually";        
         
         // await code here
         let result = await makeRequest(method, url);
-        console.log(result);
+        
         
         // code below here will only execute when await makeRequest() finished loading               
         return JSON.parse(result);
