@@ -34,8 +34,7 @@ class AppShell extends LitElement {
             pattern: '*'
         }], (route, params, query) => {
             this.route = route
-            this.params = params
-            console.log(route, params, query)
+            this.params = params            
         })
     }
 

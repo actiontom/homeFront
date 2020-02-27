@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "polymer serve"
+    "start": "polymer serve",
+    "build": "npm run build:prpl-server && npm run build:static"
   },
   "author": "JTR",
   "license": "ISC",

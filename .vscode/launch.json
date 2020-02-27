@@ -1,19 +1,11 @@
 {
-  "version": "0.1.0",
-  "configurations": [
+    "version": "0.2.0",
+    "configurations": [
       {
-          "name": "Launch localhost",
-          "type": "chrome",
-          "request": "launch",
-          "url": "http://127.0.0.1",
-          "port": 8081,
-          "webRoot": "${workspaceFolder}"
-      },
-      {
-          "name": "Launch index.html",
-          "type": "chrome",
-          "request": "launch",
-          "file": "${workspaceFolder}/index.html"
-      },
-  ]
-} 
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Program",
+        "program": "${workspaceFolder}",
+      }
+    ]
+  }
