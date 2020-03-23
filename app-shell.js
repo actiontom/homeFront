@@ -4,6 +4,7 @@ import { router, RouterSlot, RouterLink } from 'lit-element-router';
 import './views/greet-element'
 import './views/speed-element'
 import './views/report-element'
+import './views/weather-element'
 
 class AppShell extends LitElement {
 
@@ -30,6 +31,9 @@ class AppShell extends LitElement {
             name: 'report',
             pattern: 'report'
         }, {
+            name: 'weather',
+            pattern: 'weather'
+        },{
             name: 'not-found',
             pattern: '*'
         }], (route, params, query) => {
@@ -82,6 +86,7 @@ class AppShell extends LitElement {
             <router-link href='/greet'>Greet</router-link>
             <router-link href='/speed'>Speed</router-link>
             <router-link href='/report'>Report</router-link>
+            <router-link href='/weather'>Weather</router-link>
             </div>
           
             <router-slot route='${this.route}'>
@@ -89,6 +94,7 @@ class AppShell extends LitElement {
                 <div slot='greet'><greet-element></greet-element></div>
                 <div slot='speed'><speed-element></speed-element></div>
                 <div slot='report'><report-element></report-element></div>
+                <div slot='weather'><weather-element></weather-element></div>
                 <div slot='not-found'>Not Found</div>
             </router-slot>
         `

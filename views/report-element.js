@@ -1,13 +1,13 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html, css } from 'lit-element';
 
-//Import Services
+//Import services
 import { SpeedService } from '../services/speed-service';
 
-//Import Components
+//Import components
 import '../helper_components/loader-component'
 
-//Import Styles
+//Import styles
 import 'lit-element-bootstrap/components/button';
 import '@lit-element-bootstrap/layout';
 
