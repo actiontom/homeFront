@@ -7,6 +7,10 @@ import { WeatherService } from '../services/weather-service';
 // Import components
 import '../helper_components/loader-component'
 
+//Import styles
+import 'lit-element-bootstrap/components/button';
+import '@lit-element-bootstrap/layout';
+
 // Extend the LitElement base class
 export class WeatherElement extends LitElement {
 
@@ -153,14 +157,14 @@ export class WeatherElement extends LitElement {
       </div>
        
       <div>
-        <button @click="${this.searchCity}">Search</button>
+        <bs-button @click="${this.searchCity}" info>Search</<bs-button>
       </div>
      
       <div>
         <p>${this.feedBack}</p>
       </div>
       
-
+<div>
     ${ this.cities.length === 0 ? 'No City Results' : html`
 
       <div>
@@ -173,26 +177,27 @@ export class WeatherElement extends LitElement {
 
       <div>
 
-      <button @click="${this.getCurrentWeather}">Get current weather</button>
+      <bs-button @click="${this.getCurrentWeather}" info>Get current weather</<bs-button>
 
       </div>
 
       <div class="divOverFlow">
-      ${this.currentWeather === null ? 'Nothing to display yet.' : html`
+      ${this.currentWeather === [] ? 'Nothing to display yet.' : html`
       <table class="center">
-                <tr>
+                <tr>                  
                   <th>Time</th>
                   <th>Current Conditions</th>
-                  <th>Temperature</th>
-                  
+                  <th>Temperature</th>                  
                 </tr>
                 ${ this.currentWeather.map(res=> html` <tr><td>${ res.LocalObservationDateTime }</td><td>${res.WeatherText}</td><td>${res.Temperature.Metric.Value} ${res.Temperature.Metric.Unit}</td></tr> ` ) }             
-        </table>      
+        </table>   
       `}
       </div>
     `}
+    </div>
      </div>
     `;
+   
   }
 }
 // Register the new element with the browser.
