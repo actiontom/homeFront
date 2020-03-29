@@ -4,6 +4,9 @@
     "sources": [
      "./views/speed-element.js",
      "./views/greet-element.js",
+     "./views/report-element.js",
+     "./views/weather-element.js",
+     "./views/chart-element.js",
      "./services/greet-service.js",
      "./services/speed-service.js",
      "package.json"
