@@ -11,6 +11,8 @@
   "author": "JTR",
   "license": "ISC",
   "dependencies": {
+    "@danielturner/google-map": "^3.0.1-latest",
+    "@em-polymer/google-map": "^3.0.0-pre.5",
     "@google-web-components/google-chart": "^3.4.0",
     "@lit-element-bootstrap/layout": "^1.0.0-alpha.4",
     "lit-element": "^2.2.1",

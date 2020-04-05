@@ -4,7 +4,8 @@ import { LitElement, html, css } from 'lit-element';
 // Import services.
 import { Covid19Service } from '../services/covid19-service';
 
-// maps api key : AIzaSyCbrdkMYW4lDiu5Ywmxa2tSdFSGJiWXVxg 
+// maps api key : AIzaSyDrFoDCHevcCFIpq6CzzBYTgJ4D8g7PVrk old
+// maps api key : AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I
 
 import '@google-web-components/google-chart';
 
@@ -33,9 +34,9 @@ export class ChartElement extends LitElement {
     let result = await Covid19Service.getCovid19Summary();
         result = JSON.parse(result);
    
-    let summary = [["Country", "TotalConfirmed", "TotalDeaths"]]
+    let summary = [["CountryCode", "TotalConfirmed", "TotalDeaths"]]
     result.Countries.map((res)=> {
-      summary.push([res.Country, res.TotalConfirmed, res.TotalDeaths]);
+      summary.push([res.CountryCode, res.TotalConfirmed, res.TotalDeaths]);
     })
     
     this.countriesSummary = JSON.stringify(summary);
@@ -81,18 +82,19 @@ export class ChartElement extends LitElement {
      * with the `html` helper function:
      */
     return html`
-      <!-- template content -->     
+      <!-- template content -->  
+         
      <google-chart 
       type='geo'
-      mapsApiKey: 'AIzaSyCbrdkMYW4lDiu5Ywmxa2tSdFSGJiWXVxg'
+      key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
       options='{ 
                  "backgroundColor": "#81d4fa",
                  "datalessRegionColor": "#f8bbd0",
                  "defaultColor": "#f5f5f5",
-                 "colorAxis": {"minValue": "10", "maxValue": "10000", "colors": ["#FFFF00", "#FF8000", "FF4200", "FF0000"]}
+                 "colorAxis": {"minValue": "0", "maxValue": "10000", "colors": ["#FFFF00", "#FF0000"]}
                 }'
       data='${this.countriesSummary}'>
-    </google-chart>     
+    </google-chart> 
     
     `;
   }

@@ -6,6 +6,7 @@ import './views/speed-element'
 import './views/report-element'
 import './views/weather-element'
 import './views/chart-element'
+import './views/map-element'
 
 class AppShell extends LitElement {
 
@@ -37,6 +38,9 @@ class AppShell extends LitElement {
         }, {
             name: 'chart',
             pattern: 'chart'
+        },{
+            name: 'map',
+            pattern: 'map'
         },{
             name: 'not-found',
             pattern: '*'
@@ -92,6 +96,7 @@ class AppShell extends LitElement {
             <router-link href='/report'>Report</router-link>
             <router-link href='/weather'>Weather</router-link>
             <router-link href='/chart'>Chart</router-link>
+            <router-link href='/map'>Map</router-link>
             </div>
           
             <router-slot route='${this.route}'>
@@ -100,7 +105,8 @@ class AppShell extends LitElement {
                 <div slot='speed'><speed-element></speed-element></div>
                 <div slot='report'><report-element></report-element></div>
                 <div slot='weather'><weather-element></weather-element></div>
-                <div slot='chart'><chart-element></chart-element></div>
+                <div slot='chart'><chart-element>Covid19 Chart</chart-element></div>
+                <div slot='map'><map-element></map-element></div>
                 <div slot='not-found'>Not Found</div>
             </router-slot>
         `
