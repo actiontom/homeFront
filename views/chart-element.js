@@ -14,35 +14,38 @@ export class ChartElement extends LitElement {
   constructor() {
       super();
 
+      this.chartType = null;
       this.countriesSummary = null;
-      this.getSummary();     
+      this.getSummary();    
     }
       
   static get properties() {
     return {
+      chartType: { type: String },
       countriesSummary: { type: String }      
     };
   }
 
   connectedCallback() {
-    super.connectedCallback()
-    
-    console.log('connected')
+    super.connectedCallback();    
   }
 
   async getSummary() {
     let result = await Covid19Service.getCovid19Summary();
         result = JSON.parse(result);
    
-    let summary = [["CountryCode", "TotalConfirmed", "TotalDeaths"]]
+    let summary = [["CountryCode", "Country", "TotalConfirmed", "TotalDeaths"]]
     result.Countries.map((res)=> {
-      summary.push([res.CountryCode, res.TotalConfirmed, res.TotalDeaths]);
+      summary.push([res.CountryCode, res.Country, res.TotalConfirmed, res.TotalDeaths]);
     })
     
     this.countriesSummary = JSON.stringify(summary);
     
-    console.log(this.countriesSummary);
-    
+  }
+
+  getChart () {
+        this.chartType = this.shadowRoot.getElementById('selectedChartType').value;
+        console.log(this.chartType);
   }
 
   static get styles() {
@@ -53,17 +56,21 @@ export class ChartElement extends LitElement {
     .container {
       display: flex;
       flex-direction: column;
+      justify-content: center;
      
       flex-wrap: wrap;
     }
     div{
+      margin:auto;
       padding: 5px;
       margin:auto;    
     }
     google-chart{
-      width: 900px;
-      height: 500px;
-    }  
+      margin:auto;
+      width: 1200px;
+      height: 550px;
+    } 
+     
     `;
   }
 
@@ -83,18 +90,37 @@ export class ChartElement extends LitElement {
      */
     return html`
       <!-- template content -->  
-         
-     <google-chart 
-      type='geo'
-      key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
-      options='{ 
-                 "backgroundColor": "#81d4fa",
-                 "datalessRegionColor": "#f8bbd0",
-                 "defaultColor": "#f5f5f5",
-                 "colorAxis": {"minValue": "0", "maxValue": "10000", "colors": ["#FFFF00", "#FF0000"]}
-                }'
-      data='${this.countriesSummary}'>
-    </google-chart> 
+
+      <div>
+
+        <select id="selectedChartType">
+
+        <option value = ""></option>
+          <option value = "Geo">Geo</option>
+          <option value = "Pia">Pie</option>
+
+        </select>
+
+        <bs-button @click="${this.getChart}" info>Select</<bs-button>
+
+      </div>
+
+      <div>
+        ${this.chartType === 'Geo' ? html`
+        <google-chart 
+          type='geo'
+          key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
+          options='{ 
+                    "backgroundColor": "#81d4fa",
+                    "datalessRegionColor": "#f8bbd0",
+                    "defaultColor": "#f5f5f5",
+                    "colorAxis": {"minValue": "0", "maxValue": "20000", "colors": ["#FFFF00", "#FF0000"]}
+                    }'
+          data='${this.countriesSummary}'>
+        </google-chart>
+        ` : ''
+        }      
+      </div>
     
     `;
   }

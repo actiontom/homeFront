@@ -87,7 +87,7 @@ export class MapElement extends LitElement {
 
         <google-map-marker slot="markers" latitude="-34.054300" longitude="18.824619"                            
                             title="Volunteer" draggable="false" drag-events>
-        <img src="https://lh3.googleusercontent.com/proxy/679lbdUU2hapDrxZ2KnKCb5EwlSXRIyu8BQYx2NTukdgz3znRpKT5SDEtiq21JAANal2rJUO1zHcpoj8oHgEbe-u-mVIFRhsEj-Ovx1a8bbc_YA" width='50px' height="50px"/>
+        <img src="https://media.nesta.org.uk/images/good_help_bad_help.max-1200x600.png" width='50px' height="50px"/>
         </google-map-marker>
 
         <google-map-poly closed fill-color="red" fill-opacity=".25" stroke-weight="1" title="ZONE">
