@@ -4,6 +4,10 @@ import { LitElement, html, css } from 'lit-element';
 // Import services.
 import { Covid19Service } from '../services/covid19-service';
 
+//Import styles
+import 'lit-element-bootstrap/components/button';
+import '@lit-element-bootstrap/layout';
+
 // maps api key : AIzaSyDrFoDCHevcCFIpq6CzzBYTgJ4D8g7PVrk old
 // maps api key : AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I
 
@@ -15,14 +19,22 @@ export class ChartElement extends LitElement {
       super();
 
       this.chartType = null;
+
       this.countriesSummary = null;
+
+      this.pieSummary = null;
+
+      this.barSummary = null;
+
       this.getSummary();    
     }
       
   static get properties() {
     return {
       chartType: { type: String },
-      countriesSummary: { type: String }      
+      countriesSummary: { type: String },      
+      pieSummary: { type: String },   
+      barSummary: { type: String }      
     };
   }
 
@@ -40,12 +52,38 @@ export class ChartElement extends LitElement {
     })
     
     this.countriesSummary = JSON.stringify(summary);
+
+    let pieSummary = [["Country", "TotalDeaths"]]
+    result.Countries.map((res)=> {
+      pieSummary.push([res.Country, res.TotalDeaths]);      
+    })
+
+    this.pieSummary = JSON.stringify(pieSummary);
+
+    this.getTopTenMortality(result);
     
   }
 
   getChart () {
-        this.chartType = this.shadowRoot.getElementById('selectedChartType').value;
-        console.log(this.chartType);
+        this.chartType = this.shadowRoot.getElementById('selectedChartType').value;       
+  }
+
+  getTopTenMortality(countryArray = []){
+   
+    let topValues = countryArray.Countries.sort((a,b) => {
+     return b.TotalDeaths - a.TotalDeaths
+    }).slice(0,10);
+
+    console.log(topValues);
+
+    let barSummary = [["Country", "Total Confirmed", "Total Deaths"]]
+    topValues.map((res)=> {
+      // barSummary.push([res.Country, res.TotalDeaths]);
+      barSummary.push([res.Country, res.TotalConfirmed, res.TotalDeaths]);
+    })
+
+    this.barSummary = JSON.stringify(barSummary);   
+
   }
 
   static get styles() {
@@ -56,14 +94,16 @@ export class ChartElement extends LitElement {
     .container {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-     
-      flex-wrap: wrap;
+      justify-content: center; 
     }
-    div{
+    div{      
       margin:auto;
       padding: 5px;
-      margin:auto;    
+      font-family: Roboto;  
+    }
+    select{    
+      width:200px;
+      height:30px;
     }
     google-chart{
       margin:auto;
@@ -91,22 +131,29 @@ export class ChartElement extends LitElement {
     return html`
       <!-- template content -->  
 
-      <div>
+      <div class="container">
+
+<div>
 
         <select id="selectedChartType">
 
-        <option value = ""></option>
-          <option value = "Geo">Geo</option>
-          <option value = "Pia">Pie</option>
+          <option value = "Geo">COVID-19 map</option>
+          <option value = "MortalityWorldWidePie">Mortality World Wide</option>
+          <option value = "MortalityWorldBar">Mortality Rate Per Country</option>
+          <option value = "MortalityWorldLine">Mortality Rate Per Country line</option>
+          
 
         </select>
-
-        <bs-button @click="${this.getChart}" info>Select</<bs-button>
-
-      </div>
+</div>
+        <div>
+        <bs-button @click="${this.getChart}" info>Select</bs-button>        
+        </div>     
 
       <div>
         ${this.chartType === 'Geo' ? html`
+        <div>
+        <header>World (COVID-19) map</header>
+        </div>
         <google-chart 
           type='geo'
           key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
@@ -114,12 +161,60 @@ export class ChartElement extends LitElement {
                     "backgroundColor": "#81d4fa",
                     "datalessRegionColor": "#f8bbd0",
                     "defaultColor": "#f5f5f5",
-                    "colorAxis": {"minValue": "0", "maxValue": "20000", "colors": ["#FFFF00", "#FF0000"]}
+                    "colorAxis": {"minValue": "0", "maxValue": "20000", "colors": ["#e6faff", "#26004d"]}
                     }'
           data='${this.countriesSummary}'>
         </google-chart>
         ` : ''
-        }      
+        }
+
+        ${this.chartType === 'MortalityWorldWidePie' ? html`
+        <div>        
+        </div>
+        <google-chart 
+          type='pie'
+          key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
+          options='{                  
+                    "title": "Mortality Percenrtage World Wide",
+                    "is3D": "true"                   
+                    }'
+          data='${this.pieSummary}'>
+        </google-chart>
+        ` : ''
+        }
+
+        ${this.chartType === 'MortalityWorldBar' ? html`
+        <div>        
+        </div>
+        <google-chart 
+          type='bar'
+          key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
+          options='{                  
+                    "title": "Mortality Rate For Top 10 Countries",
+                    "is3D": "true"                   
+                    }'
+          data='${this.barSummary}'>
+        </google-chart>
+        ` : ''
+        }        
+      </div>
+
+      ${this.chartType === 'MortalityWorldLine' ? html`
+        <div>        
+        </div>
+        <google-chart 
+          type='line'
+          key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
+          options='{                  
+                    "title": "Mortality Rate For Top 10 Countries",
+                    "is3D": "true"                   
+                    }'
+          data='${this.barSummary}'>
+        </google-chart>
+        ` : ''
+        }        
+      </div>
+
       </div>
     
     `;
