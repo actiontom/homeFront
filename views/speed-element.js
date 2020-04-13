@@ -173,8 +173,6 @@ export class SpeedElement extends LitElement {
             </div>
             `}
         </div>
-
-       
        
       </div>
     `;
