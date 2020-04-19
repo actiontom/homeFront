@@ -92,9 +92,9 @@ export class ChartElement extends LitElement {
      return b.TotalDeaths - a.TotalDeaths
     }).slice(0,10);   
 
-    let barSummary = [["Country", "Total Confirmed", "Total Deaths"]]
+    let barSummary = [["Country", "Total Confirmed", "Total Recovered", "Total Deaths"]]
     topValues.map((res)=> {      
-      barSummary.push([res.Country, res.TotalConfirmed, res.TotalDeaths]);
+      barSummary.push([res.Country, res.TotalConfirmed, res.TotalRecovered, res.TotalDeaths]);
     })
 
     this.barSummary = JSON.stringify(barSummary);
@@ -118,15 +118,22 @@ export class ChartElement extends LitElement {
     this.loadingState = true;
     this.selectedCountryName = this.shadowRoot.getElementById('selectedCountry').value;
     let dayOneDataConfirmed = JSON.parse(await Covid19Service.getCovid19DayOne(this.selectedCountryName,'confirmed'));    
-    let dayOneDataDeaths = JSON.parse(await Covid19Service.getCovid19DayOne(this.selectedCountryName,'deaths'));    
+    let dayOneDataRecovered = JSON.parse(await Covid19Service.getCovid19DayOne(this.selectedCountryName,'recovered'));    
+    let dayOneDataDeaths = JSON.parse(await Covid19Service.getCovid19DayOne(this.selectedCountryName,'deaths'));
+    
+    let recoveredRatio = Math.round(dayOneDataRecovered[dayOneDataRecovered.length -1].Cases / dayOneDataConfirmed[dayOneDataConfirmed.length -1].Cases * 100);
+    let deathRatio = Math.round(dayOneDataDeaths[dayOneDataDeaths.length -1].Cases / dayOneDataConfirmed[dayOneDataConfirmed.length -1].Cases * 100);
 
-    let dayOneSummary = [["Date", "Confirmed", "Deaths"]]
+    let dayOneSummary = [["Date", "Confirmed", `Recovered ${recoveredRatio}%`, `Deaths ${deathRatio}%`]]
 
     dayOneDataConfirmed.map((confirmed)=> {
       dayOneDataDeaths.map((deaths) =>{
-        if(confirmed.Date.slice(0,10).slice(2,10) === deaths.Date.slice(0,10).slice(2,10)){
-          dayOneSummary.push([confirmed.Date.slice(0,10).slice(2,10), confirmed.Cases, deaths.Cases]);
-        }
+        dayOneDataRecovered.map((recovered)=>{
+
+          if(confirmed.Date.slice(0,10).slice(2,10) === deaths.Date.slice(0,10).slice(2,10) && confirmed.Date.slice(0,10).slice(2,10) === recovered.Date.slice(0,10).slice(2,10)){
+            dayOneSummary.push([confirmed.Date.slice(0,10).slice(2,10), confirmed.Cases, recovered.Cases, deaths.Cases]);
+          }
+        })
       })
     })
 
@@ -209,7 +216,7 @@ export class ChartElement extends LitElement {
                       "backgroundColor": "#81d4fa",
                       "datalessRegionColor": "#f8bbd0",
                       "defaultColor": "#f5f5f5",
-                      "colorAxis": {"minValue": "0", "maxValue": "20000", "colors": ["#e6faff", "#26004d"]}
+                      "colorAxis": {"minValue": "0", "maxValue": "35000", "colors": ["#e6faff", "#26004d"]}
                       }'
             data='${this.countriesSummary}'>
           </google-chart>
@@ -282,7 +289,7 @@ export class ChartElement extends LitElement {
                       "vAxis": {
                         "title": "COVID-19 Count"
                       },
-                      "colors": ["#FFA500", "FF0000"]              
+                      "colors": ["#FFA500", "0D8301", "FF0000"]              
                         }'
               data='${this.dayOneSummary}'>
           </google-chart>
