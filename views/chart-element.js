@@ -242,7 +242,8 @@ export class ChartElement extends LitElement {
             key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
             options='{                  
                       "title": "Mortality Rate For Top 10 Countries",
-                      "is3D": "true"                   
+                      "is3D": "true",
+                      "colors": ["#FFA500", "0D8301", "FF0000"]                  
                       }'
             data='${this.barSummary}'>
           </google-chart>
@@ -255,7 +256,8 @@ export class ChartElement extends LitElement {
             key='AIzaSyDnUSjsDs0OZMURGKNx9jrQ7iKu61U8i8I'
             options='{                  
                       "title": "Mortality Rate For Top 10 Countries",
-                      "is3D": "true"                   
+                      "is3D": "true",
+                       "colors": ["#FFA500", "0D8301", "FF0000"]                  
                       }'
             data='${this.barSummary}'>
           </google-chart>
