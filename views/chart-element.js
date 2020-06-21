@@ -216,7 +216,7 @@ export class ChartElement extends LitElement {
                       "backgroundColor": "#81d4fa",
                       "datalessRegionColor": "#f8bbd0",
                       "defaultColor": "#f5f5f5",
-                      "colorAxis": {"minValue": "0", "maxValue": "35000", "colors": ["#e6faff", "#26004d"]}
+                      "colorAxis": {"minValue": "0", "maxValue": "300000", "colors": ["#e6faff", "#26004d"]}
                       }'
             data='${this.countriesSummary}'>
           </google-chart>
