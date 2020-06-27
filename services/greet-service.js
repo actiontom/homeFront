@@ -1,13 +1,16 @@
 // Import dependencies.
 import { API } from '../helpers/api';
+import config from '../config';
 
  export class GreetService {
-
+     
+     
     static async greet(name) {        
         let queryString = "?name=".concat(name);
 
-        //var url = "http://192.168.101.227:3000/greet".concat(queryString);
-        var url = "http://localhost:3000/greet".concat(queryString);
+        console.log(config);
+        
+        var url = 'http://' + config.production.homeServiceIP + ':3000/greet'.concat(queryString);
         var method = "GET";
 
         // await code here

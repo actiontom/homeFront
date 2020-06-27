@@ -1,4 +1,5 @@
 import { API } from '../helpers/api';
+import config from '../config';
  export class SpeedService {
 
     static async getSpeedReport(beginDate = null, endDate = null) {
@@ -8,12 +9,14 @@ import { API } from '../helpers/api';
 
         if (beginDate === '' || endDate === ''){
 
-            //url = "http://192.168.101.227:3000/speedHistory";
-            url = "http://localhost:3000/speedHistory";
+            // url = "http://localhost:3000/speedHistory";
+           url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory';
+           
         } 
         else {
-            //url = "http://192.168.101.227:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
-            url = "http://localhost:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
+            
+            // url = "http://localhost:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
+            url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory?beginDate=' + beginDate + '&endDate=' + endDate;
         }        
         
         // await code here
@@ -29,8 +32,8 @@ import { API } from '../helpers/api';
         let url = "";
         var method = "GET";       
 
-        //url = "http://192.168.101.227:3000/speedTest";
-        url = "http://localhost:3000/speedTest?type=manually";        
+        // url = "http://localhost:3000/speedTest?type=manually";        
+        url = 'http://' + config.production.homeServiceIP + ':3000/speedTest?type=manually';        
         
         // await code here
         let result = await API.makeRequest(method, url);

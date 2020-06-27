@@ -1,11 +1,12 @@
 import { API } from '../helpers/api';
+import config from '../config';
  export class WeatherService {
 
     static async searchCity(cityText) {        
         let queryString = "?city=".concat(cityText);
 
-        //var url = "http://192.168.101.227:3000/searchCity".concat(queryString);
-        var url = "http://localhost:3000/searchCity".concat(queryString);
+        // var url = "http://localhost:3000/searchCity".concat(queryString);
+        var url = 'http://' + config.production.homeServiceIP + ':3000/searchCity'.concat(queryString);
         var method = "GET";
 
         // await code here
@@ -18,8 +19,8 @@ import { API } from '../helpers/api';
     static async currentWeather(key) {        
         let queryString = "?locationKey=".concat(key);
 
-        //var url = "http://192.168.101.227:3000/currentWeather".concat(queryString);
-        var url = "http://localhost:3000/currentWeather".concat(queryString);
+        // var url = "http://localhost:3000/currentWeather".concat(queryString);
+        var url = 'http://' + config.production.homeServiceIP + ':3000/currentWeather'.concat(queryString);
         var method = "GET";
 
         // await code here
