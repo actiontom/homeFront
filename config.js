@@ -7,6 +7,6 @@ export default
 
     "production": {
 
-        "homeServiceIP": "127.0.0.1"
+        "homeServiceIP": "192.168.101.160"
     }
 }

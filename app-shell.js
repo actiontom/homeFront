@@ -13,7 +13,9 @@ class AppShell extends LitElement {
     static get properties() {
         return {
             route: { type: String },
-            params: { type: Object }
+            params: { type: Object },
+            query: { type: Object },
+            data: { type: Object}
         }
     }
 
@@ -22,7 +24,8 @@ class AppShell extends LitElement {
 
        router([{
             name: 'home',
-            pattern: 'home'
+            pattern: 'home',
+            data: { title: 'Home' }
         }, {
             name: 'greet',
             pattern: 'greet'
@@ -38,15 +41,17 @@ class AppShell extends LitElement {
         }, {
             name: 'chart',
             pattern: 'chart'
-        },{
+        }, {
             name: 'map',
             pattern: 'map'
-        },{
+        }, {
             name: 'not-found',
             pattern: '*'
-        }], (route, params, query) => {
+        }], (route, params, query, data) => {
             this.route = route
-            this.params = params            
+            this.params = params
+            this.query = query
+            this.data = data
         })
     }
 
@@ -58,7 +63,7 @@ class AppShell extends LitElement {
 
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #566d7c;
+  background-color: #273E4B;
   overflow: hidden;
   font-family: "Roboto";
 }

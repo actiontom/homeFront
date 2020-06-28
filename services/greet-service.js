@@ -8,8 +8,6 @@ import config from '../config';
     static async greet(name) {        
         let queryString = "?name=".concat(name);
 
-        console.log(config);
-        
         var url = 'http://' + config.production.homeServiceIP + ':3000/greet'.concat(queryString);
         var method = "GET";
 
