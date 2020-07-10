@@ -5,7 +5,7 @@ import config from '../config';
     static async searchCity(cityText) {        
         let queryString = "?city=".concat(cityText);
 
-        // var url = "http://localhost:3000/searchCity".concat(queryString);
+        
         var url = 'http://' + config.production.homeServiceIP + ':3000/searchCity'.concat(queryString);
         var method = "GET";
 
@@ -19,7 +19,7 @@ import config from '../config';
     static async currentWeather(key) {        
         let queryString = "?locationKey=".concat(key);
 
-        // var url = "http://localhost:3000/currentWeather".concat(queryString);
+        
         var url = 'http://' + config.production.homeServiceIP + ':3000/currentWeather'.concat(queryString);
         var method = "GET";
 

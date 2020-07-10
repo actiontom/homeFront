@@ -9,13 +9,11 @@ import config from '../config';
 
         if (beginDate === '' || endDate === ''){
 
-            // url = "http://localhost:3000/speedHistory";
-           url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory';
+            url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory';
            
         } 
         else {
             
-            // url = "http://localhost:3000/speedHistory?beginDate=" + beginDate + "&endDate=" + endDate;
             url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory?beginDate=' + beginDate + '&endDate=' + endDate;
         }        
         
@@ -32,7 +30,6 @@ import config from '../config';
         let url = "";
         var method = "GET";       
 
-        // url = "http://localhost:3000/speedTest?type=manually";        
         url = 'http://' + config.production.homeServiceIP + ':3000/speedTest?type=manually';        
         
         // await code here
