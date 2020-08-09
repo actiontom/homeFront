@@ -8,7 +8,7 @@ import config from '../config';
     static async greet(name) {        
         let queryString = "?name=".concat(name);
 
-        var url = 'http://' + config.production.homeServiceIP + ':3000/greet'.concat(queryString);
+        var url = 'http://' + config.development.homeServiceIP + ':3000/greet'.concat(queryString);
         var method = "GET";
 
         // await code here

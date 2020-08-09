@@ -9,12 +9,12 @@ import config from '../config';
 
         if (beginDate === '' || endDate === ''){
 
-            url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory';
+            url = 'http://' + config.development.homeServiceIP + ':3000/speedHistory';
            
         } 
         else {
             
-            url = 'http://' + config.production.homeServiceIP + ':3000/speedHistory?beginDate=' + beginDate + '&endDate=' + endDate;
+            url = 'http://' + config.development.homeServiceIP + ':3000/speedHistory?beginDate=' + beginDate + '&endDate=' + endDate;
         }        
         
         // await code here
@@ -30,7 +30,7 @@ import config from '../config';
         let url = "";
         var method = "GET";       
 
-        url = 'http://' + config.production.homeServiceIP + ':3000/speedTest?type=manually';        
+        url = 'http://' + config.development.homeServiceIP + ':3000/speedTest?type=manually';        
         
         // await code here
         let result = await API.makeRequest(method, url);

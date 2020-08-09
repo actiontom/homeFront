@@ -6,7 +6,7 @@ import config from '../config';
         let queryString = "?city=".concat(cityText);
 
         
-        var url = 'http://' + config.production.homeServiceIP + ':3000/searchCity'.concat(queryString);
+        var url = 'http://' + config.development.homeServiceIP + ':3000/searchCity'.concat(queryString);
         var method = "GET";
 
         // await code here
@@ -18,9 +18,8 @@ import config from '../config';
 
     static async currentWeather(key) {        
         let queryString = "?locationKey=".concat(key);
-
         
-        var url = 'http://' + config.production.homeServiceIP + ':3000/currentWeather'.concat(queryString);
+        var url = 'http://' + config.development.homeServiceIP + ':3000/currentWeather'.concat(queryString);
         var method = "GET";
 
         // await code here

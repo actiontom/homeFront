@@ -6,7 +6,7 @@ import config from '../config';
 
     static async getCovid19Summary() {       
 
-        var url = 'http://' + config.production.homeServiceIP + ':3000/covid19summary'
+        var url = 'http://' + config.development.homeServiceIP + ':3000/covid19summary'
         var method = "GET";
 
         // await code here
@@ -18,7 +18,7 @@ import config from '../config';
 
     static async getCovid19Countries() {   
 
-        var url = 'http://' + config.production.homeServiceIP + ':3000/covid19Countries'
+        var url = 'http://' + config.development.homeServiceIP + ':3000/covid19Countries'
         var method = "GET";
 
         // await code here
@@ -30,7 +30,7 @@ import config from '../config';
 
     static async getCovid19DayOne(country, status) {      
 
-        var url = 'http://' + config.production.homeServiceIP + ':3000/covid19DayOne?country=' + country + '&status=' + status
+        var url = 'http://' + config.development.homeServiceIP + ':3000/covid19DayOne?country=' + country + '&status=' + status
         var method = "GET";
 
         // await code here
