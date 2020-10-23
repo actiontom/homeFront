@@ -9,8 +9,7 @@ import config from '../config';
 
         if (beginDate === '' || endDate === ''){
 
-            url = 'http://' + config.development.homeServiceIP + ':3000/speedHistory';
-           
+            url = 'http://' + config.development.homeServiceIP + ':3000/speedHistory';           
         } 
         else {
             
@@ -18,11 +17,10 @@ import config from '../config';
         }        
         
         // await code here
-        let result = await API.makeRequest(method, url);
-        console.log(result);
-        
+        let result = JSON.parse(await API.makeRequest(method, url));        
+
         // code below here will only execute when await makeRequest() finished loading               
-        return JSON.parse(result);
+        return result;
         }
 
     static async getSpeedTest() {

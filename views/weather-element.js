@@ -34,63 +34,7 @@ export class WeatherElement extends LitElement {
 
   static get styles() {
     return css`
-    :host {
-      display: block;
-    }
-    
-    .flex-container {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: center;
-      margin: auto;
-      flex-direction: column;
-      width: auto;
-    }
-    
-    .flex-container > div {
-      background-color: #f1f1f1;     
-      text-align: center;
-    }
-
-    h4 {
-      text-align: center;
-    }
-
-    div{
-      padding: 5px;
-      font-family: Roboto;
-    }
-    .divOverFlow{
-      height: 300px;
-      overflow-y: scroll;
-      background-color: white;
-    }
-    
-    table {
-      font-family: Roboto;
-    }
-    
-    table.center {
-      margin-left:auto;
-      margin-right:auto;
-    }  
-    
-    th, td {
-      padding: 5px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .th{
-      position: sticky;     
-      height: 50px;
-    }
-
-    tr:hover {background-color: #f5f5f5;}
-    
-    td{
-      font-size: 14px;
-    }    
+ 
     `;
   }
 
@@ -145,15 +89,30 @@ export class WeatherElement extends LitElement {
      * with the `html` helper function:
      */
     return html`
+     <link rel="stylesheet" href="./styles/app-styles.css">
       <!-- template content -->
-     <div class="flex-container">
+     <div class="container">
+
+     <div>
+        <h4>Get a weather report.</h4>
+      </div>
 
      <div>
         <loader-component .loading="${this.loadingState}" ></loader-component>
       </div>
 
-       <div>
+      <div>
          <label>City Name:</label> <input @click="${this.clear}" type="text" id="cityName" value="${this.city}"><br>
+      </div>
+
+      <div>
+      ${ this.cities.length === 0 ? '' : html`
+      <select id="cityID">
+
+      ${ this.cities.map(res=> html` <option value = ${res.Key} >${res.LocalizedName}, ${res.AdministrativeArea.LocalizedName}, ${res.Country.LocalizedName} </option> `) }
+      
+      </select>
+      `}
       </div>
        
       <div>
@@ -163,17 +122,8 @@ export class WeatherElement extends LitElement {
       <div>
         <p>${this.feedBack}</p>
       </div>
-      
-<div>
-    ${ this.cities.length === 0 ? 'No City Results' : html`
-
-      <div>
-      <select id="cityID">
-
-      ${ this.cities.map(res=> html` <option value = ${res.Key} >${res.LocalizedName}, ${res.AdministrativeArea.LocalizedName}, ${res.Country.LocalizedName} </option> `) }
-      
-      </select>      
-      </div>
+    
+    ${ this.cities.length === 0 ? 'No City Results' : html`    
 
       <div>
 
@@ -182,22 +132,20 @@ export class WeatherElement extends LitElement {
       </div>
 
       <div class="divOverFlow">
-      ${this.currentWeather === [] ? 'Nothing to display yet.' : html`
-      <table class="center">
-                <tr>                  
+      ${Array.isArray(this.currentWeather) && this.currentWeather.length > 0 ? html`
+        <table>
+                <tr>
                   <th>Time</th>
                   <th>Current Conditions</th>
                   <th>Temperature</th>                  
                 </tr>
                 ${ this.currentWeather.map(res=> html` <tr><td>${ res.LocalObservationDateTime }</td><td>${res.WeatherText}</td><td>${res.Temperature.Metric.Value} ${res.Temperature.Metric.Unit}</td></tr> ` ) }             
-        </table>   
-      `}
+        </table>
+      ` : ''}
       </div>
     `}
-    </div>
-     </div>
-    `;
-   
+
+    `;   
   }
 }
 // Register the new element with the browser.

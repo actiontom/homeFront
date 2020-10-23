@@ -8,6 +8,7 @@ import './views/weather-element'
 import './views/chart-element'
 import './views/map-element'
 
+
 class AppShell extends LitElement {
 
     static get properties() {
@@ -57,43 +58,12 @@ class AppShell extends LitElement {
 
     static get styles() {
         return css`
-:host {
-    display: block;
-}
-
-/* Add a black background color to the top navigation */
-.topnav {
-  background-color: #273E4B;
-  overflow: hidden;
-  font-family: "Roboto";
-}
-
-/* Style the links inside the navigation bar */
-.topnav router-link{
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;    
-  }
-
-/* Change the color of links on hover */
-.topnav router-link:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* Add a color to the active/current link */
-.topnav router-link.active {
-  background-color: #4CAF50;
-  color: white;
-}       
-        `;
+ `;
       }
 
     render() {
         return html`
+            <link rel="stylesheet" href="./styles/app-styles.css">
             <div class="topnav">
             <router-link href='/home'>Home</router-link>
             <router-link href='/greet'>Greet</router-link>

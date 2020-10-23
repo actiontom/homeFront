@@ -20,20 +20,7 @@ export class GreetElement extends LitElement {
   }
 
   static get styles() {
-    return css`
-    :host {
-      display: block;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-     
-      flex-wrap: wrap;
-    }
-    div{
-      padding: 5px;
-      margin:auto;    
-    }    
+    return css`   
     `;
   }
 
@@ -45,7 +32,7 @@ export class GreetElement extends LitElement {
     this.greeting = "Please enter your name."
   } else {
     
-    this.greeting = await GreetService.greet(this.name);
+    this.greeting = await GreetService.greet(this.name) + ', your backend service is working.';
     }    
   } 
 
@@ -69,18 +56,24 @@ export class GreetElement extends LitElement {
      */
     return html`
       <!-- template content -->
+      <link rel="stylesheet" href="./styles/app-styles.css">
+
      <div class='container'>
+
+     <div>
+       <h4>Greet Test</h4>
+     </div>
 
        <div>
          <label>Name:</label> <input @click="${this.clear}" type="text" id="fname" value="${this.name}"><br>
       </div>
        
       <div>
-        <button @click="${this.greet}">Greet</button>
+        <bs-button @click="${this.greet}" info>Greet</bs-button>
       </div>
      
       <div>
-        <p>${this.greeting}</p>
+        <p class='paragraph'>${this.greeting}</p>
       </div>
 
      </div>

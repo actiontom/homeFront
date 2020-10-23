@@ -18,7 +18,7 @@ export class SpeedElement extends LitElement {
     super();
 
     this.setDefaultDates();
-    this.loadingState = false;   
+    this.loadingState = false;
   }
 
   static get properties() {
@@ -73,65 +73,8 @@ export class SpeedElement extends LitElement {
   }
 
   static get styles() {
-    return css`
-    :host {
-      display: block;
-    }
-    .flex-container {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: center;
-      margin: auto;
-      flex-direction: column;
-      width: auto;
-    }
-    
-    .flex-container > div {
-      background-color: #f1f1f1;     
-      text-align: center;
-    }
-
-    h4 {
-      text-align: center;
-    }
-
-    div{
-      padding: 5px;
-      font-family: Roboto;
-    }
-    .divOverFlow{
-      height: 300px;
-      overflow-y: scroll;
-      background-color: white;
-    }  
-
-    table {
-      font-family: Roboto;
-    }
-    
-    table.center {
-      margin-left:auto; 
-      margin-right:auto;
-    }  
-    
-    th, td {
-      padding: 5px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th{
-      height: 50px;
-    }
-
-    tr:hover {background-color: #f5f5f5;}
-    
-    td{
-      font-size: 14px;
-    }
-   
-    `;
-  }  
+    return css``;
+  }
 
   /**
    * Implement `render` to define a template for your element.
@@ -147,28 +90,27 @@ export class SpeedElement extends LitElement {
      * with the `html` helper function:
      */
     return html`
+     <link rel="stylesheet" href="./styles/app-styles.css">
+
       <!-- template content -->
-      <div>
-        <h4>Get your line speed tested.</h4>
-      </div>
 
       <div>
         <loader-component .loading="${this.loadingState}" ></loader-component>
       </div>
 
-      <div class="flex-container">
+      <div class="container">
+      <div>
+        <h4>Test your line speed.</h4>
+      </div>
         <div>
-          <bs-button @click="${this.speedTester}" info>Speed Test</bs-button>
-          ${this.speedTest === null ? html`<div>Nothing to display</div>` : html`
-            <div>
-            
-            </div>
+          <bs-button @click="${this.speedTester}" info>Run Test</bs-button>
+          ${this.speedTest === null ? html`<div></div>` : html`           
             <div>
               <table class="center">
                 <tr>             
                   <th>Download Speed</th>
                 </tr>
-                ${ this.speedTest ? html` <tr><td>${this.speedTest.speeds.download + ' kB/s'}</td></tr>` : `` }             
+                ${ this.speedTest ? html` <tr><td>${this.speedTest.speeds.download + ' kB/s'}</td></tr>` : `` }
               </table>        
             </div>
             `}
