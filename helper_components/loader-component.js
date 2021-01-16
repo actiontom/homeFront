@@ -29,6 +29,7 @@ export class LoaderComponent extends LitElement {
       bottom:0px;
       right:0px;
       background-color:rgba(255,255,0,0.5);
+      
   }
     .parent {
       position:fixed;
