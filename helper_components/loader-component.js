@@ -10,7 +10,7 @@ export class LoaderComponent extends LitElement {
   }
 
   connectedCallback() {
-    super.connectedCallback();   
+    super.connectedCallback();
   }
 
   static get properties() {
@@ -21,56 +21,78 @@ export class LoaderComponent extends LitElement {
 
   static get styles() {
     return css`
-
-    #overlay {
-      display: flex;
-      justify-content: center;
-      flex-direction: row;
-      align-items: center;
-
-      position: fixed; /* Sit on top of the page content */
-      
-      width: 100%; /* Full width (cover the whole page) */
-      height: 100%; /* Full height (cover the whole page) */
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-      z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-      cursor: pointer; /* Add a pointer on hover */
+    
+    #overlay{
+      position:absolute;
+      top:0px;
+      left:0px;
+      bottom:0px;
+      right:0px;
+      background-color:rgba(255,255,0,0.5);
+  }
+    .parent {
+      position:fixed;
+      z-index: 1;
+      top:40%;
+      left:40%;
+      background-color: green;
+      height: 100px;
+      width: 100px;
+      animation: rotation 12s ease-in forwards infinite;
+    }
+    .child {
+      background-color: blue;
+      height: 50%;
+      width: 50%;      
+      animation: right-to-left 6s ease-in forwards infinite;
+    }  
+    .child2 {
+      background-color: yellow;
+      height: 50%;
+      width: 50%;   
+      animation: rotation 3s ease-in forwards infinite;
+    }
+    
+    @keyframes right-to-left {
+      0% {
+        transform: translateX(50%);       
+      }
+      25% {
+        transform: translateY(50%) rotate(90deg);          
+      }
+      50% {
+        transform: translateX(50%) translateY(100%) rotate(180deg);          
+      }
+      75% {
+        transform: translateX(100%) translateY(50%) rotate(270deg);          
+      }
+      100% {
+        transform: translateX(50%) rotate(360deg);       
+      }
     }
 
-    .loader {      
-        
-      height: 250px;
-      width: 250px;
-      margin: 0 auto;
-      background-color: red;
-      animation-name: stretch;
-      animation-duration: 1.5s; 
-      animation-timing-function: ease-out; 
-      animation-delay: 0;
-      animation-direction: alternate;
-      animation-iteration-count: infinite;
-      animation-fill-mode: none;
-      animation-play-state: running;        
+    @keyframes rotation {
+      0% {
+        transform: translateX(50%);       
       }
+      25% {
+        transform: translateY(50%) rotate(90deg);          
+      }
+      50% {
+        transform: translateX(50%) translateY(100%) rotate(180deg);          
+      }
+      75% {
+        transform: translateX(100%) translateY(50%) rotate(270deg);          
+      }
+      100% {
+        transform: translateX(50%) rotate(360deg);       
+      }
+    }
+
+     
+    }      
+    
       
-      @keyframes stretch {
-        0% {
-          transform: scale(.3);
-          background-color: red;
-          border-radius: 100%;
-        }
-        50% {
-          background-color: orange;
-        }
-        100% {
-          transform: scale(1.5);
-          background-color: yellow;
-        }
-      }
     `;
   } 
 
@@ -90,10 +112,13 @@ export class LoaderComponent extends LitElement {
     return html`
       <!-- template content -->
       ${!this.loading ? `` : html`
-       <div id="overlay">
-        <div class='loader'>
+      <div id = "overlay">
+        <div class="parent">
+          <div class="child">
+            <div class="child2"></div>
+          </div>
         </div>
-     </div>
+      </div>
      `}
     `;
   }

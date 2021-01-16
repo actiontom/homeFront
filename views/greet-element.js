@@ -7,7 +7,11 @@ import { GreetService } from '../services/greet-service';
 export class GreetElement extends LitElement {
 
   constructor() {
-    super();
+    super();    
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
     this.name = "Enter your name";
     this.greeting = "";
   }
