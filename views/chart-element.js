@@ -36,8 +36,7 @@ export class ChartElement extends LitElement {
       this.selectedCountryName = null;
 
       this.loadingState = false;
-
-      
+            
     }
       
   static get properties() {
